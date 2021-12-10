@@ -6,3 +6,5 @@ services:
     container_name: codepay-process-transaction
     volumes:
       - .:/go/src/
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
