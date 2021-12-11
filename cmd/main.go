@@ -28,7 +28,7 @@ func main() {
 
 	// configMapProducer
 	configMapProducer := &ckafka.ConfigMap{
-		"bootstrap.servers": "kafka:9092",
+		"bootstrap.servers": "host.docker.internal:9094",
 	}
 
 	kafkaPresenter := transaction.NewTransactionKafkaPresenter()
@@ -40,8 +40,7 @@ func main() {
 
 	// configMapConsumer
 	configMapConsumer := &ckafka.ConfigMap{
-		"bootstrap.servers": "kafka:9092",
-		"client.id":         "goapp",
+		"bootstrap.servers": "host.docker.internal:9094",
 		"group.id":          "goapp",
 	}
 
