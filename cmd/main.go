@@ -5,19 +5,20 @@ import (
 	"encoding/json"
 	"fmt"
 	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/netoudi/codepay-process-transaction/adapter/broker/kafka"
 	"github.com/netoudi/codepay-process-transaction/adapter/factory"
 	"github.com/netoudi/codepay-process-transaction/adapter/presenter/transaction"
 	"github.com/netoudi/codepay-process-transaction/usecase/process_transaction"
 	"log"
+	"os"
 )
 
 func main() {
 	fmt.Println("Hello World!")
 
 	// db
-	db, err := sql.Open("sqlite3", "database.sqlite")
+	db, err := sql.Open("mysql", os.Getenv("MYSQL_USERNAME")+":"+os.Getenv("MYSQL_PASSWORD")+"@tcp("+os.Getenv("MYSQL_HOST")+":3306)/"+os.Getenv("MYSQL_DATABASE"))
 	if err != nil {
 		log.Fatal(err)
 	}

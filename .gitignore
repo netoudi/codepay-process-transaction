@@ -1,1 +1,3 @@
 /database.sqlite
+/.docker/dbdata/
+/.env
