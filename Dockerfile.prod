@@ -1,0 +1,22 @@
+#### BUILD ###
+FROM golang:1.17 as builder
+
+WORKDIR /app
+
+RUN apt-get update && \
+    apt-get install build-essential librdkafka-dev -y
+
+COPY . .
+
+RUN go get -d -v
+RUN GOOS=linux go build -ldflags="-s -w" -o /app/main
+
+#### PRODUCTION ####
+FROM ubuntu
+
+RUN apt-get update && \
+    apt-get install librdkafka-dev -y
+
+COPY --from=builder /app/main /app/main
+
+CMD ["/app/main"]

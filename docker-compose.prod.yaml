@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  app:
+    image: tineto/codepay-process-transaction:latest
+    container_name: codepay-process-transaction-app
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USERNAME=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    depends_on:
+      - db
+
+  db:
+    build: ./.docker/mysql
+    command: --innodb-use-native-aio=0
+    container_name: codepay-process-transaction-db
+    restart: always
+    tty: true
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql
+      - ./.docker/mysql/initdb:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
